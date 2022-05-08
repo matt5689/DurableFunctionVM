@@ -3,58 +3,76 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "southcentralus"
         },
         "networkInterfaceName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "[concat('azuretestenvironm', uniqueString(resourceGroup().id))]"
         },
         "networkSecurityGroupName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "AzureTestEnvironment2Main-nsg"
         },
         "networkSecurityGroupRules": {
-            "type": "array"
+            "type": "array",
+            "defaultValue": "[]"
         },
         "subnetName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "AzureTestEnvironment2Sub1"
         },
         "virtualNetworkId": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "/subscriptions/153bf828-3e1e-48f9-8e6d-7f69c8e188aa/resourceGroups/azuretestenvironment2rg/providers/Microsoft.Network/virtualNetworks/AzureTestEnvironment2VNet"
         },
         "virtualMachineName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "[concat('AzureTestEnvironment2', uniqueString(resourceGroup().id))]"
         },
         "virtualMachineComputerName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "[concat('AzureTestEnviro', uniqueString(resourceGroup().id))]"
         },
         "virtualMachineRG": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "AzureTestEnvironment2RG"
         },
         "osDiskDeleteOption": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Detach"
         },
         "virtualMachineSize": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Standard_F8s_v2"
         },
         "nicDeleteOption": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Detach"
         },
         "autoShutdownStatus": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Enabled"
         },
         "autoShutdownTime": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "22:00"
         },
         "autoShutdownTimeZone": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Central Standard Time"
         },
         "autoShutdownNotificationStatus": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Disabled"
         },
         "autoShutdownNotificationLocale": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "en"
         },
         "autoShutdownNotificationEmail": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
