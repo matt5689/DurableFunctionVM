@@ -15,7 +15,8 @@
             "defaultValue": "AzureTestEnvironment2Main-nsg"
         },
         "networkSecurityGroupRules": {
-            "type": "array"
+            "type": "array",
+            "defaultValue": []
         },
         "subnetName": {
             "type": "string",
