@@ -16,7 +16,7 @@
         },
         "networkSecurityGroupRules": {
             "type": "array",
-            "value": "[createArray()]"
+            "value": [createArray()]
         },
         "subnetName": {
             "type": "string",
