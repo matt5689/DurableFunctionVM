@@ -3,76 +3,71 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "southcentralus"
         },
         "networkInterfaceName": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "[concat('azuretestenvironm', uniqueString(resourceGroup().id))]"
         },
         "networkSecurityGroupName": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "AzureTestEnvironment2Main-nsg"
         },
         "networkSecurityGroupRules": {
-            "type": "array",
-            "value": "[{}]"
+            "value": []
         },
         "subnetName": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "AzureTestEnvironment2Sub1"
         },
         "virtualNetworkId": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "/subscriptions/153bf828-3e1e-48f9-8e6d-7f69c8e188aa/resourceGroups/azuretestenvironment2rg/providers/Microsoft.Network/virtualNetworks/AzureTestEnvironment2VNet"
         },
         "virtualMachineName": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "[concat('AzureTestEnvironment2', uniqueString(resourceGroup().id))]"
         },
         "virtualMachineComputerName": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "[concat('AzureTestEnviro', uniqueString(resourceGroup().id))]"
         },
         "virtualMachineRG": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "AzureTestEnvironment2RG"
         },
         "osDiskDeleteOption": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "Detach"
         },
         "virtualMachineSize": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "Standard_F8s_v2"
         },
         "nicDeleteOption": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "Detach"
         },
         "autoShutdownStatus": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "Enabled"
         },
         "autoShutdownTime": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "22:00"
         },
         "autoShutdownTimeZone": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "Central Standard Time"
         },
         "autoShutdownNotificationStatus": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "Disabled"
         },
         "autoShutdownNotificationLocale": {
-            "type": "string",
+            "type": "String",
             "defaultValue": "en"
-        },
-        "autoShutdownNotificationEmail": {
-            "type": "string",
-            "defaultValue": ""
         }
     },
     "variables": {
@@ -83,9 +78,9 @@
     },
     "resources": [
         {
-            "name": "[parameters('networkInterfaceName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2021-03-01",
+            "name": "[parameters('networkInterfaceName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]"
@@ -108,18 +103,18 @@
             }
         },
         {
-            "name": "[parameters('networkSecurityGroupName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2019-02-01",
+            "name": "[parameters('networkSecurityGroupName')]",
             "location": "[parameters('location')]",
             "properties": {
                 "securityRules": "[parameters('networkSecurityGroupRules')]"
             }
         },
         {
-            "name": "[parameters('virtualMachineName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2021-07-01",
+            "name": "[parameters('virtualMachineName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
@@ -152,9 +147,9 @@
             }
         },
         {
-            "name": "[concat('shutdown-computevm-', parameters('virtualMachineName'))]",
             "type": "Microsoft.DevTestLab/schedules",
             "apiVersion": "2018-09-15",
+            "name": "[concat('shutdown-computevm-', parameters('virtualMachineName'))]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
@@ -170,8 +165,7 @@
                 "notificationSettings": {
                     "status": "[parameters('autoShutdownNotificationStatus')]",
                     "notificationLocale": "[parameters('autoShutdownNotificationLocale')]",
-                    "timeInMinutes": "30",
-                    "emailRecipient": "[parameters('autoShutdownNotificationEmail')]"
+                    "timeInMinutes": "30"
                 }
             }
         }
