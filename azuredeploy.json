@@ -8,7 +8,7 @@
     },
     "networkInterfaceName": {
       "type": "String",
-      "defaultValue": "[concat('azuretestenvironm', substring(uniqueString(resourceGroup().id)), 0, 4)]"
+      "defaultValue": "[concat('testnic', uniqueString(resourceGroup().id))]"
     },
     "subnetName": {
       "type": "String",
@@ -24,7 +24,7 @@
     },
     "virtualMachineComputerName": {
       "type": "String",
-      "defaultValue": "[concat('AzureTestEnviro', substring(uniqueString(resourceGroup().id)), 0, 4)]"
+      "defaultValue": "[concat('AzureTestEnviro', uniqueString(resourceGroup().id)]"
     },
     "virtualMachineRG": {
       "type": "String",
