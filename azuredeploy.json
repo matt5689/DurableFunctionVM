@@ -19,7 +19,7 @@
     },
     "virtualMachineName": {
       "type": "String",
-      "defaultValue": "[concat('AzureTestEnviron', uniqueString(resourceGroup().id))]"
+      "defaultValue": "[concat('VM_', uniqueString(resourceGroup().id))]"
     },
     "virtualMachineComputerName": {
       "type": "String",
