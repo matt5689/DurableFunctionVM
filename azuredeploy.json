@@ -20,7 +20,7 @@
     },
     "virtualMachineName": {
       "type": "String",
-      "defaultValue": "[concat('VM_', substring(uniqueString(resourceGroup().id), 0, 4))]"
+      "defaultValue": "[concat('VM_', substring(uniqueString(resourceGroup().id)), 0, 4)]"
     },
     "virtualMachineComputerName": {
       "type": "String",
