@@ -1,4 +1,155 @@
 {
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "String"
+    },
+    "networkInterfaceName": {
+      "type": "String",
+      "defaultValue": "[concat('azuretestenvironm', uniqueString(resourceGroup().id))]"
+    },
+    "subnetName": {
+      "type": "String",
+      "defaultValue": "AzureTestEnvironment2Sub1"
+    },
+    "virtualNetworkId": {
+      "type": "String",
+      "defaultValue": "/subscriptions/153bf828-3e1e-48f9-8e6d-7f69c8e188aa/resourceGroups/azuretestenvironment2rg/providers/Microsoft.Network/virtualNetworks/AzureTestEnvironment2VNet"
+    },
+    "virtualMachineName": {
+      "type": "String",
+      "defaultValue": "[concat('AzureTestEnviron', uniqueString(resourceGroup().id))]"
+    },
+    "virtualMachineComputerName": {
+      "type": "String",
+      "defaultValue": "[concat('AzureTestEnviro', uniqueString(resourceGroup().id))]"
+    },
+    "virtualMachineRG": {
+      "type": "String",
+      "defaultValue": "AzureTestEnvironment2RG"
+    },
+    "osDiskType": {
+      "type": "String",
+      "defaultValue": "Premium_LRS"
+    },
+    "osDiskDeleteOption": {
+      "type": "String",
+      "defaultValue": "Detach"
+    },
+    "virtualMachineSize": {
+      "type": "String",
+      "defaultValue": "Standard_F8s_v2"
+    },
+    "nicDeleteOption": {
+      "type": "String",
+      "defaultValue": "Delete"
+    },
+    "adminUsername": {
+      "type": "String",
+      "defaultValue": "Enter_Anything"
+    },
+    "adminPassword": {
+      "type": "SecureString",
+      "defaultValue": "Enter_Anything"
+    },
+    "patchMode": {
+      "type": "String",
+      "defaultValue": "Manual"
+    },
+    "enableHotpatching": {
+      "type": "Bool",
+      "defaultValue": "false"
+    }
+  },
+  "variables": {
+    "vnetId": "[parameters('virtualNetworkId')]",
+    "vnetName": "[last(split(variables('vnetId'), '/'))]",
+    "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2021-03-01",
+      "name": "[parameters('networkInterfaceName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              },
+              "privateIPAllocationMethod": "Dynamic"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2021-07-01",
+      "name": "[parameters('virtualMachineName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('virtualMachineSize')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "createOption": "fromImage",
+            "managedDisk": {
+              "storageAccountType": "[parameters('osDiskType')]"
+            },
+            "deleteOption": "[parameters('osDiskDeleteOption')]"
+          },
+          "imageReference": {
+            "id": "/subscriptions/153bf828-3e1e-48f9-8e6d-7f69c8e188aa/resourceGroups/AzureTestEnvironment2RG/providers/Microsoft.Compute/images/AzureTestEnvironment2Image"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]",
+              "properties": {
+                "deleteOption": "[parameters('nicDeleteOption')]"
+              }
+            }
+          ]
+        },
+        "osProfile": {
+          "computerName": "[parameters('virtualMachineComputerName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "windowsConfiguration": {
+            "enableAutomaticUpdates": false,
+            "provisionVmAgent": true,
+            "patchSettings": {
+              "enableHotpatching": "[parameters('enableHotpatching')]",
+              "patchMode": "[parameters('patchMode')]"
+            }
+          }
+        },
+        "licenseType": "Windows_Client"
+      }
+    }
+  ],
+  "outputs": {
+    "adminUsername": {
+      "type": "String",
+      "value": "[parameters('adminUsername')]"
+    }
+  }
+}
+
+
+
+{
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
