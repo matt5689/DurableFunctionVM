@@ -3,8 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": {
-      "type": "String",
-      "defaultValue": "South Central US"
+      "type": "String"
     },
     "networkInterfaceName": {
       "type": "String",
@@ -139,11 +138,5 @@
         "licenseType": "Windows_Client"
       }
     }
-  ],
-  "outputs": {
-    "adminUsername": {
-      "type": "String",
-      "value": "[parameters('adminUsername')]"
-    }
-  }
+  ]
 }
